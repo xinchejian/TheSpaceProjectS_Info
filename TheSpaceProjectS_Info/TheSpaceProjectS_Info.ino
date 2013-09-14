@@ -27,8 +27,8 @@ memory size 19,388  then added bigArray and have to use it, then 20,644
 
      Xinchejian Hackerspace Shanghai 
 
- All information including assembly details are at: http://wiki.xinchejian.com/wiki/??????????????????
- And the code is at github/xinchejian/??????
+ All information including assembly details are at: http://wiki.xinchejian.com/wiki/TheSpaceProjectS
+ And the code is at https://github.com/xinchejian/TheSpaceProjectS_Info/tree/master/TheSpaceProjectS_Info
 
  The projects are open source and everyone is encourage to contribute to the hardware, the software,
  the documentation (in many languages) and especially in using the devices.
