@@ -80,7 +80,26 @@ You need to add the password into this file, so of course make sure that:
 
 You may also need to update the mail server lines....
 
-Plus you need the senEmails.sh script - place in teh the pcDuino desktop (/home/ubuntu/Desktop)
+
+If running the code, or just in a shell running "mail" you see :-
+  "Cannot open mailbox /var/mail/ubuntu: Permission denied"
+
+Then follow adivce from these sites
+  http://ubuntuforums.org/showthread.php?t=1500892
+  http://stackoverflow.com/questions/9153398/permission-denied-when-doing-postfix-ubuntu-tutorial
+both suggest:
+sudo touch /var/mail/$USER
+sudo chown $USER:mail /var/mail/$USER
+sudo chmod o-r /var/mail/$USER
+sudo chmod g+rw /var/mail/$USER
+
+now mail runs and says no mail = :)
+
+Plus you need the sendEmails.sh script - place in the the pcDuino desktop (/home/ubuntu/Desktop)
+
+AND you also need to update the code to use the same FROM address, eg:-
+          sendEmail("thespaceprojects@xinchejian.com", "xinchejian@googlegroups.com", "thespaceprojects 'date'", "'body text here'");
+
 =========================================================================================
 
 
