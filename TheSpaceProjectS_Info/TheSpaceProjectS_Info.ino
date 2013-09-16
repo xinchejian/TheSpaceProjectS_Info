@@ -1,12 +1,18 @@
 /*
   ToDo
-      - wifi (for email...)
-      - email
-      - lights, buzzers, LCD
-      - daemon
 
-pos hint on cfg of pcDuino like Ard env in pcDuino+arduino+environment.pdf
+  ** Make BIG note on board - pcDuino board is 3.3 volt logic! to avoid damaging the pcDuino ALL 5v sensors/boards MUST be safely level shifted! The Linksprite translation board (T board) board will do this if configured and used properly!
 
+      - email - update with button pushed /cmd <<<<---- added but not yet tested :)
+      - more sensible web pages - ie usefull info!!!!
+      - web pages in chinese!!!! (there is VERY LITTLE chinese info on the wiki!) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      - lights, temp - has someone left lights/air con on?
+      - buzzers, motion sensors
+      - LCD ??? Use LinkSprite LCD to say booting up, please turn on monitor?????
+	  ... change it's boot msg????
+      - Nabaztag
+      - rfid
+ 
   ??do multiple code files/tabs work???
   
   for print: can echo to console
@@ -17,8 +23,6 @@ pos hint on cfg of pcDuino like Ard env in pcDuino+arduino+environment.pdf
     added delay - no longer any o/p from printf
     
   printing - also dif if run exe from std terminal! - could not see prints!
-
-memory size 19,388  then added bigArray and have to use it, then 20,644
 
 */
 
@@ -326,7 +330,8 @@ void processButons(){
 //          snprintf(someText, sizeof(someText), "echo ssmtp spanner888@usabledevices.com </home/ubuntu/Desktop/email.txt");
             //snprintf(someText, sizeof(someText), "echo ssmtp spanner888@usabledevices.com </home/ubuntu/Desktop/email.txt</home/ubuntu/Desktop/email.txt");
 //            snprintf(someText, sizeof(someText), "echo ssmtp xinchejian@googlegroups.com </home/ubuntu/Desktop/email.txt</home/ubuntu/Desktop/email.txt");
-          sendEmail("thespaceprojects@xinchejian.com", "thespaceprojects@xinchejian.com", "thespaceprojects `date`", "'body text here'");
+	  snprintf(someText, sizeof(someText), "thespaceprojects `date` button: %s" cmdNumber);
+          sendEmail("thespaceprojects@xinchejian.com", "thespaceprojects@xinchejian.com", someText, "'body text here'");
 //          sendEmail("tsps@usabledevices.com", "xinchejian@googlegroups.com", "'Test message from pcDuino'", "'body text here'");
           delay(2000);
       }
