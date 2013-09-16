@@ -3,7 +3,9 @@
 
   ** Make BIG note on board - pcDuino board is 3.3 volt logic! to avoid damaging the pcDuino ALL 5v sensors/boards MUST be safely level shifted! The Linksprite translation board (T board) board will do this if configured and used properly!
 
-      - email - update with button pushed /cmd <<<<---- added but not yet tested :)
+      - email - add power off messages .... need to do via a linux shutdown script?
+      - email - add power on messages		<<<<---- added but not yet tested :)
+      - email - update with button pushed /cmd 	<<<<---- added but not yet tested :)
       - more sensible web pages - ie usefull info!!!!
       - web pages in chinese!!!! (there is VERY LITTLE chinese info on the wiki!) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
       - lights, temp - has someone left lights/air con on?
@@ -59,6 +61,8 @@
 
 //#include <core.h>
 
+//ID of this configuration
+#define TSPS_ID 2
 
 // ALTERNATE button functions, once web page has been displayed.
 #define BUTTON_CLOSE_PAGE 6
@@ -262,6 +266,10 @@ void setup() {
   for (int i = 0; i < buttonCount; i++){
     pinMode(i + button1, INPUT);     
   }
+
+  char someText[256];
+  snprintf(someText, sizeof(someText), "thespaceprojects(%s) `date` Power ON: %s" TSPS_ID, cmdNumber);
+  sendEmail("thespaceprojects@xinchejian.com", "thespaceprojects@xinchejian.com", someText, "'body text here'");  
 }
 
 // the loop routine runs over and over again forever:
@@ -330,7 +338,7 @@ void processButons(){
 //          snprintf(someText, sizeof(someText), "echo ssmtp spanner888@usabledevices.com </home/ubuntu/Desktop/email.txt");
             //snprintf(someText, sizeof(someText), "echo ssmtp spanner888@usabledevices.com </home/ubuntu/Desktop/email.txt</home/ubuntu/Desktop/email.txt");
 //            snprintf(someText, sizeof(someText), "echo ssmtp xinchejian@googlegroups.com </home/ubuntu/Desktop/email.txt</home/ubuntu/Desktop/email.txt");
-	  snprintf(someText, sizeof(someText), "thespaceprojects `date` button: %s" cmdNumber);
+	  snprintf(someText, sizeof(someText), "thespaceprojects(%s) `date` button: %s" TSPS_ID, cmdNumber);
           sendEmail("thespaceprojects@xinchejian.com", "thespaceprojects@xinchejian.com", someText, "'body text here'");
 //          sendEmail("tsps@usabledevices.com", "xinchejian@googlegroups.com", "'Test message from pcDuino'", "'body text here'");
           delay(2000);
