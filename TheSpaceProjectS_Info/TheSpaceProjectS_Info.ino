@@ -129,9 +129,9 @@ char* cmdLineS[] = {
   //page #30
   "echo p30",
   "echo p31",
-  "echo p32",
-  "echo p33",
-  "echo p34",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/TheSpaceProjectS.html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Helper Sessions - XinCheJian.html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Assistive_Devices.html",
 
   //page #35
   "echo p35",
