@@ -3,6 +3,12 @@
 
   ** Make BIG note on board - pcDuino board is 3.3 volt logic! to avoid damaging the pcDuino ALL 5v sensors/boards MUST be safely level shifted! The Linksprite translation board (T board) board will do this if configured and used properly!
 
+  make instructions - suggestions web page - english & chinese versions
+  display on MOST button combos
+   
+  
+      - button combo for version info - pcd# & prog version (?and sensors attached or at least config in prog)
+	  do as web page or in console
       - email - add power off messages .... need to do via a linux shutdown script?
       - email - add power on messages		<<<<---- added but not yet tested :)
       - email - update with button pushed /cmd 	<<<<---- added but not yet tested :)
@@ -167,14 +173,14 @@ char* cmdLineS[] = {
   "echo p61",
   "echo p62",
   "echo p63",
-  "echo p64",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About Us 有关我们 新车间 [Xinchejian].html",
 
   //page #65
-  "echo p65",
-  "echo p66",
-  "echo p67",
-  "echo p68",
-  "echo p69",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About XinCheJian - XinCheJian.html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Membership 会员制度 新车间 [Xinchejian].html",	// from main site
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Membership - XinCheJian.html",	// from wiki not main site??
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact Us 联系我们 新车间 [Xinchejian].html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/",
 
   //page #70
   "echo p70",
@@ -292,7 +298,7 @@ void processButons(){
     for (int i = 0; i < buttonCount; i++){
         if (digitalRead(i + button1)){
           anyPressed = true;
-          delay(500);  
+          delay(300);  
         }
     }
   }
