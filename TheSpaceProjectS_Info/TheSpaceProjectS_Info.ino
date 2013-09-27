@@ -86,14 +86,14 @@ char tsps_ID[] = "XinCheJian in container";
 
 char* cmdLineS[] = {
   "",  //0 nothing in first element - will not get executed by code!
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About Us 有关我们 新车间 [Xinchejian].html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About XinCheJian - XinCheJian.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Membership 会员制度 新车间 [Xinchejian].html",	// from main site
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Membership - XinCheJian.html",	// from wiki not main site??
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About Us 有关我们 新车间 [Xinchejian].html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About XinCheJian - XinCheJian.html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Membership 会员制度 新车间 [Xinchejian].html'",	// from main site
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Membership - XinCheJian.html'",	// from wiki not main site??
 
   //page #5
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact Us 联系我们 新车间 [Xinchejian].html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact us.html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact Us 联系我们 新车间 [Xinchejian].html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact us.html'",
   "echo p7",
   "echo p8",
   "echo p9",
@@ -103,7 +103,7 @@ char* cmdLineS[] = {
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Machine Room Guide - XinCheJian.html'",
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Shop - XinCheJian.html'",
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Kits - XinCheJian.html'",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/'",
 
   //page #15
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Hackerspace etiquette - XinCheJian.html'",
@@ -289,7 +289,6 @@ void loop() {
 void processButons(){
   boolean anyPressed = false;
   unsigned int cmdNumber = 0;                // = remember which cmdNumber pressed, in binary
-  boolean currentButtonState = false;
 
   char someText[256];
 
@@ -306,8 +305,7 @@ void processButons(){
 
   // Now read ALL the cmdNumber pressed
   for (int i = buttonCount -1 ; i >= 0; i--){
-        currentButtonState = !digitalRead(i + button1);
-	if (currentButtonState){
+	if (!digitalRead(i + button1)){
 	    anyPressed = true;
 	    cmdNumber += 1;
 	}
@@ -322,7 +320,7 @@ void processButons(){
       //OK now run action for that button - ATM assumes all actions are browser + web page
       char cmdLine[256];
       snprintf(cmdLine, sizeof(cmdLine), "%s &", cmdLineS[cmdNumber]);	//don't wait for app to finish
-//	  snprintf(cmdLine, sizeof(cmdLine), "%s ", cmdLineS[cmdNumber]);	//wait for app to finish
+//    snprintf(cmdLine, sizeof(cmdLine), "%s", cmdLineS[cmdNumber]);	//wait for app to finish
       snprintf(someText, sizeof(someText), "echo Command to run = %s", cmdLine);
       system(someText); // echo cmd line that will be run to the terminal
       system(cmdLine);  //execute the cmd!
@@ -337,10 +335,13 @@ void processButons(){
 // for example body text does not appear form below, but does from manual console.
 // usage sendEmail(from, to, subject, body);
 void sendEmail(char* fromTxt, char* toTxt, char* subjectTxt, char* bodyTxt){
+  char cmdText[256];
   if (sendEmails ){
-    char cmdText[256];
     snprintf(cmdText, sizeof(cmdText), "/home/ubuntu/Desktop/sendEmail.sh %s %s %s %s", fromTxt, toTxt, subjectTxt, bodyTxt);
     system(cmdText);
+  }
+  else{
+    system("echo 'set sendEmails = true; to send emails!'");
   }
 }
 
