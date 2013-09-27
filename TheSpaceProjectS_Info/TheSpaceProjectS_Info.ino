@@ -67,10 +67,8 @@
 
 //#include <core.h>
 
-//ID of this configuration
-#define TSPS_ID 2
-
 // ALTERNATE button functions, once web page has been displayed.
+// ... not yet implemented!
 #define BUTTON_CLOSE_PAGE 6
 #define BUTTON_UP 0
 #define BUTTON_DOWN 1
@@ -78,39 +76,41 @@
 #define BUTTON_RIGHT 3
 
 
-//?? email stuff - call ext script or do via cmd line here????
+boolean sendEmails = false;
 
 int button1 = 2;
 int buttonCount = 7;
 
+//ID of this configuration
+char tsps_ID[] = "XinCheJian in container";
 
 char* cmdLineS[] = {
   "",  //0 nothing in first element - will not get executed by code!
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About Us 有关我们 新车间 [Xinchejian].html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About XinCheJian - XinCheJian.html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Membership 会员制度 新车间 [Xinchejian].html",	// from main site
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Membership - XinCheJian.html",	// from wiki not main site??
+
+  //page #5
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact Us 联系我们 新车间 [Xinchejian].html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact us.html",
+  "echo p7",
+  "echo p8",
+  "echo p9",
+  
+  //page #10
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Membership - XinCheJian.html'",
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Machine Room Guide - XinCheJian.html'",
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Shop - XinCheJian.html'",
   "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Kits - XinCheJian.html'",
-
-  //page #5
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Hackerspace etiquette - XinCheJian.html'",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Staff members - XinCheJian.html'",
-  "echo hack me please",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/The Space - XinCheJian.html'",
-  "echo hack me!!!",
-
-  //page #10
-  "echo who=;who;echo pwd=;pwd;echo PATH=;echo $PATH",
-  "echo p12",
-  "echo p12",
-  "echo p13",
-  "echo p14",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/",
 
   //page #15
-  "echo p15",
-  "echo p16",
-  "echo p17",
-  "echo p18",
-  "echo p19",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Hackerspace etiquette - XinCheJian.html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Staff members - XinCheJian.html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/The Space - XinCheJian.html'",
+  "echo hack me please",
+  "echo hack me!!!",
 
   //page #20
   "echo p20",
@@ -129,9 +129,9 @@ char* cmdLineS[] = {
   //page #30
   "echo p30",
   "echo p31",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/TheSpaceProjectS.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Helper Sessions - XinCheJian.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Assistive_Devices.html",
+  "echo p32",
+  "echo p33",
+  "echo p34",
 
   //page #35
   "echo p35",
@@ -173,14 +173,13 @@ char* cmdLineS[] = {
   "echo p61",
   "echo p62",
   "echo p63",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About Us 有关我们 新车间 [Xinchejian].html",
 
   //page #65
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/About XinCheJian - XinCheJian.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Membership 会员制度 新车间 [Xinchejian].html",	// from main site
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Xinchejian Membership - XinCheJian.html",	// from wiki not main site??
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Contact Us 联系我们 新车间 [Xinchejian].html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/",
+  "echo p65",
+  "echo p66",
+  "echo p67",
+  "echo p68",
+  "echo p69",
 
   //page #70
   "echo p70",
@@ -274,7 +273,9 @@ void setup() {
   }
 
   char someText[256];
-  snprintf(someText, sizeof(someText), "thespaceprojects(%s) `date` Power ON: %s" TSPS_ID, cmdNumber);
+//          snprintf(someText, sizeof(someText), "echo XCJ opened at `date` | mail -s 'Subject' tsps@usabledevices.com ");
+
+  snprintf(someText, sizeof(someText), "POWER ON/REBOOT `date` thespaceprojects:%s", tsps_ID);
   sendEmail("thespaceprojects@xinchejian.com", "thespaceprojects@xinchejian.com", someText, "'body text here'");  
 }
 
@@ -284,9 +285,8 @@ void loop() {
 }
 
 
-// Read cmdNumber pressed, including shift button.
+// Read cmdNumber pressed
 void processButons(){
-  boolean shift = false;
   boolean anyPressed = false;
   unsigned int cmdNumber = 0;                // = remember which cmdNumber pressed, in binary
   boolean currentButtonState = false;
@@ -307,57 +307,41 @@ void processButons(){
   // Now read ALL the cmdNumber pressed
   for (int i = buttonCount -1 ; i >= 0; i--){
         currentButtonState = !digitalRead(i + button1);
-        if (i + button1 == button1){	// or whatever button is used for shift
-	    if (currentButtonState) shift = true;
+	if (currentButtonState){
+	    anyPressed = true;
+	    cmdNumber += 1;
 	}
-	else{
-	    shift = false;
-	    if (currentButtonState){
-		anyPressed = true;
-		cmdNumber += 1;
-	    }
-            cmdNumber = cmdNumber << 1;
-	}
+	cmdNumber = cmdNumber << 1;
   }
   cmdNumber = cmdNumber >> 1;
 
 
-  if (shift){
-    cmdNumber += 64;
-  }
-      if (anyPressed){
-          snprintf(someText, sizeof(someText), "echo shifted cmdNumber pressed value = %d {decimal}, %x {Hexadecimal}", cmdNumber, cmdNumber);
-          system(someText);
-	  //OK now run action for that button - ATM assumes all actions are browser + web page
-	  char cmdLine[256];
-	  snprintf(cmdLine, sizeof(cmdLine), "%s &", cmdLineS[cmdNumber]);	//don't wait for app to finish
+  if (anyPressed){
+      snprintf(someText, sizeof(someText), "echo Button = %d {decimal}, %x {Hexadecimal}", cmdNumber, cmdNumber);
+      system(someText);
+      //OK now run action for that button - ATM assumes all actions are browser + web page
+      char cmdLine[256];
+      snprintf(cmdLine, sizeof(cmdLine), "%s &", cmdLineS[cmdNumber]);	//don't wait for app to finish
 //	  snprintf(cmdLine, sizeof(cmdLine), "%s ", cmdLineS[cmdNumber]);	//wait for app to finish
-          snprintf(someText, sizeof(someText), "echo Command to run = %s", cmdLine);
-          system(someText); // echo cmd line that will be run to the terminal
-          system(cmdLine);  //execute the cmd!
+      snprintf(someText, sizeof(someText), "echo Command to run = %s", cmdLine);
+      system(someText); // echo cmd line that will be run to the terminal
+      system(cmdLine);  //execute the cmd!
 
-
-
-//MOVE THIS STUFF INTO setup() ... plus add a shutdown email!!!
-//          snprintf(someText, sizeof(someText), "echo XCJ opened at `date` | mail -s 'Subject' tsps@usabledevices.com ");
-//          snprintf(someText, sizeof(someText), "echo mpack -s 'XCJ opened at `date`' /home/ubuntu/Desktop/code.txt tsps@usabledevices.com");
-//          snprintf(someText, sizeof(someText), "echo ssmtp spanner888@usabledevices.com </home/ubuntu/Desktop/email.txt");
-            //snprintf(someText, sizeof(someText), "echo ssmtp spanner888@usabledevices.com </home/ubuntu/Desktop/email.txt</home/ubuntu/Desktop/email.txt");
-//            snprintf(someText, sizeof(someText), "echo ssmtp xinchejian@googlegroups.com </home/ubuntu/Desktop/email.txt</home/ubuntu/Desktop/email.txt");
-	  snprintf(someText, sizeof(someText), "thespaceprojects(%s) `date` button: %s" TSPS_ID, cmdNumber);
-          sendEmail("thespaceprojects@xinchejian.com", "thespaceprojects@xinchejian.com", someText, "'body text here'");
-//          sendEmail("tsps@usabledevices.com", "xinchejian@googlegroups.com", "'Test message from pcDuino'", "'body text here'");
-          delay(2000);
-      }
-   }
+      snprintf(someText, sizeof(someText), "Button: %d, `date`, thespaceprojects:%s", cmdNumber, tsps_ID);
+      sendEmail("thespaceprojects@xinchejian.com", "thespaceprojects@xinchejian.com", someText, "'body text here'");
+      delay(2000);
+  }
+}
 
 // Function below works, but get different results running manually from terminal to this code.
 // for example body text does not appear form below, but does from manual console.
 // usage sendEmail(from, to, subject, body);
 void sendEmail(char* fromTxt, char* toTxt, char* subjectTxt, char* bodyTxt){
-  char cmdText[256];
-  snprintf(cmdText, sizeof(cmdText), "/home/ubuntu/Desktop/sendEmail.sh %s %s %s %s", fromTxt, toTxt, subjectTxt, bodyTxt);
-  system(cmdText);
+  if (sendEmails ){
+    char cmdText[256];
+    snprintf(cmdText, sizeof(cmdText), "/home/ubuntu/Desktop/sendEmail.sh %s %s %s %s", fromTxt, toTxt, subjectTxt, bodyTxt);
+    system(cmdText);
+  }
 }
 
 
