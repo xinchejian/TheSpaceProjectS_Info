@@ -113,14 +113,14 @@ char* cmdLineS[] = {
   "echo hack me!!!",
 
   //page #20
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Aaaiiirrr.org - XinCheJian.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/ArduBlock - XinCheJian.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Helper Sessions - XinCheJian.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Assistive Devices - XinCheJian.html",
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/TheSpaceProjectS - XinCheJian.html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Aaaiiirrr.org - XinCheJian.html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/ArduBlock - XinCheJian.html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Helper Sessions - XinCheJian.html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Assistive Devices - XinCheJian.html'",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/TheSpaceProjectS - XinCheJian.html'",
 
   //page #25
-  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Urban Farming - XinCheJian.html",
+  "/usr/bin/chromium-browser '/home/ubuntu/Desktop/www/Urban Farming - XinCheJian.html'",
   "echo p26",
   "echo p27",
   "echo p28",
